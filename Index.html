@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miltos Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f0f0f; color: white; margin: 0; text-align: center; }
+    .container { padding: 20px; }
+    .product { background: #1c1c1c; padding: 15px; margin: 15px; border-radius: 10px; }
+    .product img { width: 100%; border-radius: 10px; }
+    .btn { background: #00ff88; color: black; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
+    .btn:hover { background: #00cc6a; }
+    .admin { position: fixed; bottom: 10px; right: 10px; background: red; padding: 10px; border-radius: 50%; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🔥 Miltos Store</h1>
+  <p>Trending προϊόντα – Στείλε μήνυμα για παραγγελία</p>
+  <div id="products"></div>
+</div>
+
+<div class="admin" onclick="adminMode()">⚙️</div>
+
+<script>
+let telegram = "https://t.me/miltosk1";
+
+let products = [
+  { name: "LED Strip Lights", price: "19.99€", desc: "Κάνε το δωμάτιό σου viral ✨", img: "images/led_strip.jpg" },
+  { name: "Mini Massage Gun", price: "24.99€", desc: "Ανακούφιση μυών σε 5 λεπτά 💪", img: "images/massage_gun.jpg" },
+  { name: "Magnetic Phone Holder", price: "14.99€", desc: "Οδήγηση χωρίς χέρια 🚗", img: "images/phone_holder.jpg" }
+];
+
+function render() {
+  let html = "";
+  products.forEach((p, i) => {
+    html += `
+      <div class="product">
+        <img src="${p.img}" alt="${p.name}">
+        <h2>${p.name}</h2>
+        <p>${p.desc}</p>
+        <h3>${p.price}</h3>
+        <a class="btn" href="${telegram}" target="_blank">Στείλε μήνυμα</a>
+      </div>
+    `;
+  });
+  document.getElementById("products").innerHTML = html;
+}
+
+function adminMode() {
+  let pass = prompt("Password:");
+  if(pass === "hustletheworld123"){
+    let action = prompt("1=Add, 2=Edit Price, 3=Delete");
+
+    if(action == "1"){
+      let name = prompt("Name:");
+      let price = prompt("Price:");
+      let desc = prompt("Desc:");
+      let img = prompt("Image path (π.χ. images/product.jpg):");
+      products.push({name, price, desc, img});
+    }
+
+    if(action == "2"){
+      let i = prompt("Product index (0,1,2...):");
+      let newPrice = prompt("New price:");
+      products[i].price = newPrice;
+    }
+
+    if(action == "3"){
+      let i = prompt("Product index:");
+      products.splice(i,1);
+    }
+
+    render();
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
